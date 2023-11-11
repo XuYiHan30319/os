@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "os.h": "c",
+        "stdarg.h": "c",
+        "platform.h": "c",
+        "stddef.h": "c"
+    },
+    "workbench.editor.wrapTabs": true
+}
