@@ -49,6 +49,7 @@ struct context *get_next_task()
 	// 在这里进行priority的操作,使用最基本的数据结构,在priority内实现轮询,priority低的先做
 	// 并且我们保证任务都在前面
 	int cur = -1, max_priority = 256;
+	int flag = 1;
 	for (int i = 0; i < _top; i++)
 	{
 		if (ctx_tasks[i].vaild)
@@ -56,7 +57,7 @@ struct context *get_next_task()
 			max_priority = min(max_priority, ctx_tasks[i].priority);
 		}
 	}
-	int a[MAX_TASKS];
+	int a[MAX_TASKS]; // 找出所有优先级等于max_priority的
 	int n = 0;
 	for (int i = 0; i < _top; i++)
 	{

@@ -56,9 +56,6 @@ void user_task0(void)
 
 void user_task1(void)
 {
-	// int *s = (int *)malloc(sizeof(int));
-	// free(s);
-
 	char *k = (char *)malloc(sizeof(char) * 9000); // 这里我的malloc返回了个NULL
 	k[0] = '1';
 	k[1] = '2';
@@ -107,7 +104,7 @@ uint32_t a[2] = {3, 4};
 void os_main(void)
 {
 	// task_create();
-	task_create(user_task0, NULL, 1, 3);
+	task_create(user_task0, NULL, 1, 1);
 	task_create(user_task1, NULL, 1, 1);
 	task_create(user_task2, a, 2, 1);
 	uart_putc('\n');
