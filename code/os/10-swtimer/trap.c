@@ -45,7 +45,7 @@ reg_t trap_handler(reg_t epc, reg_t cause)
 		switch (cause_code)
 		{
 		case 3:
-			uart_puts("software interruption!\n");
+			uart_puts(""); // 这行不能注释,非常奇怪,不然会报错
 			int id = r_mhartid();
 			*(uint32_t *)CLINT_MSIP(id) = 0;
 			if (software_type == 0)

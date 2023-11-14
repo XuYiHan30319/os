@@ -5,12 +5,14 @@ extern uint32_t _tick;
 extern int _top;
 extern int _current;
 
+// 关闭定时器中断
 int spin_lock()
 {
 	w_mstatus(r_mstatus() & ~MSTATUS_MIE);
 	return 0;
 }
 
+// 打开定时器中断
 int spin_unlock()
 {
 	w_mstatus(r_mstatus() | MSTATUS_MIE);
@@ -25,7 +27,7 @@ void semWait(semaphore *s)
 	s->count--;
 	if (s->count < 0)
 	{
-		push_queue(s->task_queue, &ctx_tasks[_current]);
+		push_queue(s->task_queue, &ctx_tasks[_current]); // 等待队列中添加当前任务
 		printf("队列成功添加任务\n");
 		ctx_tasks[_current].vaild = 0; // 阻塞
 		task_yield(1);				   // 放弃当前任务的继续执行
@@ -39,7 +41,7 @@ void semSignal(semaphore *s)
 	s->count++;
 	if (s->count <= 0)
 	{
-		struct context *next_vaild = queue_head(s->task_queue);
+		struct context *next_vaild = queue_head(s->task_queue);//从队列中取出一个可以继续执行的任务
 		printf("成功移出任务\n");
 		pop_queue(s->task_queue);
 		next_vaild->vaild = 1;
@@ -67,6 +69,8 @@ void lock_task1()
 void lock_main()
 {
 	init_semaphore();
+	task_create(lock_task1, NULL, 1, 1);
+	task_create(lock_task1, NULL, 1, 1);
 	task_create(lock_task1, NULL, 1, 1);
 	task_create(lock_task1, NULL, 1, 1);
 	task_create(lock_task1, NULL, 1, 1);

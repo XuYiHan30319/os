@@ -25,7 +25,7 @@ void timer_func(void *arg)
 void user_task0(void)
 {
 	// 分别在第3,5,7个时刻进行提示,软件定时器
-	// struct timer *t1 = timer_create(timer_func, &person, 3);
+	struct timer *t1 = timer_create(timer_func, &person, 3);
 	// if (NULL == t1)
 	// {
 	// 	printf("timer_create() failed!\n");

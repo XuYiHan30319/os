@@ -11,9 +11,9 @@ extern void switch_to(struct context *next);
 
 uint8_t __attribute__((aligned(16))) task_stack[MAX_TASKS][STACK_SIZE];
 uint8_t __attribute__((aligned(16))) os_stack[STACK_SIZE];
-struct context ctx_tasks[MAX_TASKS];
+struct context ctx_tasks[MAX_TASKS]; // 可以用链表重写,但是我太懒了
 struct context *next_task;
-struct context ctx_os; // os线程位置,不需要特意设置,在第一次跳转的时候自动绑定位置
+struct context ctx_os; // os线程位置,不需要特意设置,理论上在第一次跳转的时候自动绑定位置 ////但是我不会
 extern uint32_t _tick;
 uint32_t waiting_time = 0;
 /*
