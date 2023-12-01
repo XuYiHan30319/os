@@ -14,6 +14,7 @@
 extern int uart_putc(char ch);
 extern void uart_puts(char *s);
 extern int uart_getc(void);
+extern uint8_t xyh_uart_getc(void);
 
 /* printf */
 extern int printf(const char *s, ...);

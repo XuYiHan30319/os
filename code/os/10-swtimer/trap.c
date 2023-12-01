@@ -1,11 +1,12 @@
 #include "os.h"
 
 extern void trap_vector(void);
-extern void uart_isr(void);
+extern char uart_isr(void);
 extern void timer_handler(void);
 extern void schedule(void);
 extern int software_type;
 extern struct context *next_task;
+char message;
 
 void trap_init()
 {
@@ -21,7 +22,7 @@ void external_interrupt_handler()
 
 	if (irq == UART0_IRQ)
 	{
-		uart_isr();
+		message = uart_isr();
 	}
 	else if (irq)
 	{
@@ -44,8 +45,7 @@ reg_t trap_handler(reg_t epc, reg_t cause)
 		/* Asynchronous trap - interrupt */
 		switch (cause_code)
 		{
-		case 3:
-			uart_puts(""); // 这行不能注释,非常奇怪,不然会报错
+		case 3:;
 			int id = r_mhartid();
 			*(uint32_t *)CLINT_MSIP(id) = 0;
 			if (software_type == 0)
@@ -89,7 +89,7 @@ void trap_test()
 	 * Synchronous exception code = 7
 	 * Store/AMO access fault
 	 */
-	*(int *)0x00000000 = 100;
+	*(int *)0x00000000 = 100; // 手动触发异常
 
 	/*
 	 * Synchronous exception code = 5

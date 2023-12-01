@@ -27,12 +27,12 @@ void welcome()
 void os_start()
 {
 	os_main();
-	lock_main();
+	// lock_main();
 	welcome();
 	while (1)
 	{
 		next_task = get_next_task();
-		printf("切换到任务%d\n", next_task->UID);
+		// printf("切换到任务%d\n", next_task->UID);
 		task_yield(1);
 	}
 }

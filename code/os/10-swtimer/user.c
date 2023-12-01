@@ -25,7 +25,7 @@ void timer_func(void *arg)
 void user_task0(void)
 {
 	// 分别在第3,5,7个时刻进行提示,软件定时器
-	struct timer *t1 = timer_create(timer_func, &person, 3);
+	// struct timer *t1 = timer_create(timer_func, &person, 3);
 	// if (NULL == t1)
 	// {
 	// 	printf("timer_create() failed!\n");
@@ -98,14 +98,102 @@ void user_task2(uint32_t *parama)
 		task_delay(DELAY);
 	}
 }
+
+char user_input = 0;
+
+void input_task(void)
+{
+	while (1)
+	{
+		user_input = xyh_uart_getc();
+		if (user_input == 's' || user_input == 'w' || user_input == 'a' || user_input == 'd')
+			;
+		{
+			// printf("接受到输入了");
+			task_yield(1);
+		}
+	}
+}
+
+void game()
+{
+	int x = 0;
+	int y = 0;
+	while (1)
+	{
+		if (user_input == 's')
+		{
+			if (y < 4)
+			{
+				y++;
+			}
+			user_input = 0;
+		}
+		else if (user_input == 'w')
+		{
+			if (y > 0)
+			{
+				y--;
+			}
+			user_input = 0;
+		}
+		else if (user_input == 'd')
+		{
+			if (x < 22)
+			{
+				x++;
+			}
+			user_input = 0;
+		}
+		else if (user_input == 'a')
+		{
+			if (x > 0)
+			{
+				x--;
+			}
+			user_input = 0;
+		}
+		else
+		{
+			continue;
+		}
+		printf("------------------------\n");
+		for (int i = 0; i < 5; i++)
+		{
+			if (i == y)
+			{
+				printf("|");
+				for (int j = 0; j < x; j++)
+				{
+					printf(" ");
+				}
+				printf("x");
+				for (int j = x; j < 22; j++)
+				{
+					printf(" ");
+				}
+				printf("|\n");
+			}
+			else
+			{
+				printf("|                      |\n");
+			}
+		}
+		printf("------------------------\n");
+		task_yield(1);
+	}
+}
+
 uint32_t a[2] = {3, 4};
 
 // 这里用来创造初识线程
 void os_main(void)
 {
 	// task_create();
-	task_create(user_task0, NULL, 1, 1);
-	task_create(user_task1, NULL, 1, 1);
-	task_create(user_task2, a, 2, 1);
-	uart_putc('\n');
+	// task_create(user_task0, NULL, 1, 1);
+	// task_create(user_task1, NULL, 1, 1);
+	// task_create(user_task2, a, 2, 1);
+	// uart_putc('\n');
+	task_create(input_task, NULL, 1, 1);
+	task_create(game, NULL, 1, 1);
 }
