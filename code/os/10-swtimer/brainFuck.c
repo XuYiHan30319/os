@@ -1,10 +1,19 @@
+extern int printf(const char *s, ...);
+extern void scanf(char *c, int a);
+
 char program[1024], paper[1024];
 int ptr = 512, stack[1024], sp = 0;
+
 void run()
 {
+    char *helloworld = "++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>++.>+.+++++++..+++.<<++.>+++++++++++++++.>.+++.------.--------.<<+.<.";
+    printf("创建了brainFuck\n");
     int size = 0, pc = 0;
-    for (; program[size] != '\0'; ++size)
-        ;
+    // scanf(program, 1024);
+    for (; helloworld[size] != '\0'; ++size)
+        program[size] = helloworld[size];
+    printf("%s\n", program);
+
     for (; pc < size; ++pc)
     {
         if (!sp && program[pc] == ']')
@@ -35,10 +44,10 @@ void run()
             --ptr;
             break;
         case ',':
-            // scanf("%c", &paper[ptr]);
+            scanf(&paper[ptr], 1);
             break;
         case '.':
-            // printf("%c", paper[ptr]);
+            printf("%c", paper[ptr]);
             break;
         }
         if (ptr >= 1024 || ptr < 0)

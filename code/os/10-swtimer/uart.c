@@ -152,7 +152,7 @@ char uart_isr(void)
 		else
 		{
 			// uart_putc((char)c);
-			// uart_putc('\n');
+			return (char)c;
 		}
 	}
 }

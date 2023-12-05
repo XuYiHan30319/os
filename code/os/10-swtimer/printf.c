@@ -1,39 +1,50 @@
 #include "os.h"
 
+extern char message;
 /*
  * ref: https://github.com/cccriscv/mini-riscv-os/blob/master/05-Preemptive/lib.c
  */
 
-static int _vsnprintf(char * out, size_t n, const char* s, va_list vl)
+static int _vsnprintf(char *out, size_t n, const char *s, va_list vl)
 {
 	int format = 0;
 	int longarg = 0;
 	size_t pos = 0;
-	for (; *s; s++) {
-		if (format) {
-			switch(*s) {
-			case 'l': {
+	for (; *s; s++)
+	{
+		if (format)
+		{
+			switch (*s)
+			{
+			case 'l':
+			{
 				longarg = 1;
 				break;
 			}
-			case 'p': {
+			case 'p':
+			{
 				longarg = 1;
-				if (out && pos < n) {
+				if (out && pos < n)
+				{
 					out[pos] = '0';
 				}
 				pos++;
-				if (out && pos < n) {
+				if (out && pos < n)
+				{
 					out[pos] = 'x';
 				}
 				pos++;
 			}
-			case 'x': {
+			case 'x':
+			{
 				long num = longarg ? va_arg(vl, long) : va_arg(vl, int);
-				int hexdigits = 2*(longarg ? sizeof(long) : sizeof(int))-1;
-				for(int i = hexdigits; i >= 0; i--) {
-					int d = (num >> (4*i)) & 0xF;
-					if (out && pos < n) {
-						out[pos] = (d < 10 ? '0'+d : 'a'+d-10);
+				int hexdigits = 2 * (longarg ? sizeof(long) : sizeof(int)) - 1;
+				for (int i = hexdigits; i >= 0; i--)
+				{
+					int d = (num >> (4 * i)) & 0xF;
+					if (out && pos < n)
+					{
+						out[pos] = (d < 10 ? '0' + d : 'a' + d - 10);
 					}
 					pos++;
 				}
@@ -41,19 +52,25 @@ static int _vsnprintf(char * out, size_t n, const char* s, va_list vl)
 				format = 0;
 				break;
 			}
-			case 'd': {
+			case 'd':
+			{
 				long num = longarg ? va_arg(vl, long) : va_arg(vl, int);
-				if (num < 0) {
+				if (num < 0)
+				{
 					num = -num;
-					if (out && pos < n) {
+					if (out && pos < n)
+					{
 						out[pos] = '-';
 					}
 					pos++;
 				}
 				long digits = 1;
-				for (long nn = num; nn /= 10; digits++);
-				for (int i = digits-1; i >= 0; i--) {
-					if (out && pos + i < n) {
+				for (long nn = num; nn /= 10; digits++)
+					;
+				for (int i = digits - 1; i >= 0; i--)
+				{
+					if (out && pos + i < n)
+					{
 						out[pos + i] = '0' + (num % 10);
 					}
 					num /= 10;
@@ -63,10 +80,13 @@ static int _vsnprintf(char * out, size_t n, const char* s, va_list vl)
 				format = 0;
 				break;
 			}
-			case 's': {
-				const char* s2 = va_arg(vl, const char*);
-				while (*s2) {
-					if (out && pos < n) {
+			case 's':
+			{
+				const char *s2 = va_arg(vl, const char *);
+				while (*s2)
+				{
+					if (out && pos < n)
+					{
 						out[pos] = *s2;
 					}
 					pos++;
@@ -76,9 +96,11 @@ static int _vsnprintf(char * out, size_t n, const char* s, va_list vl)
 				format = 0;
 				break;
 			}
-			case 'c': {
-				if (out && pos < n) {
-					out[pos] = (char)va_arg(vl,int);
+			case 'c':
+			{
+				if (out && pos < n)
+				{
+					out[pos] = (char)va_arg(vl, int);
 				}
 				pos++;
 				longarg = 0;
@@ -88,38 +110,49 @@ static int _vsnprintf(char * out, size_t n, const char* s, va_list vl)
 			default:
 				break;
 			}
-		} else if (*s == '%') {
+		}
+		else if (*s == '%')
+		{
 			format = 1;
-		} else {
-			if (out && pos < n) {
+		}
+		else
+		{
+			if (out && pos < n)
+			{
 				out[pos] = *s;
 			}
 			pos++;
 		}
-    	}
-	if (out && pos < n) {
+	}
+	if (out && pos < n)
+	{
 		out[pos] = 0;
-	} else if (out && n) {
-		out[n-1] = 0;
+	}
+	else if (out && n)
+	{
+		out[n - 1] = 0;
 	}
 	return pos;
 }
 
 static char out_buf[1000]; // buffer for _vprintf()
 
-static int _vprintf(const char* s, va_list vl)
+static int _vprintf(const char *s, va_list vl)
 {
 	int res = _vsnprintf(NULL, -1, s, vl);
-	if (res+1 >= sizeof(out_buf)) {
+	if (res + 1 >= sizeof(out_buf))
+	{
 		uart_puts("error: output string size overflow\n");
-		while(1) {}
+		while (1)
+		{
+		}
 	}
 	_vsnprintf(out_buf, res + 1, s, vl);
 	uart_puts(out_buf);
 	return res;
 }
 
-int printf(const char* s, ...)
+int printf(const char *s, ...)
 {
 	int res = 0;
 	va_list vl;
@@ -134,5 +167,37 @@ void panic(char *s)
 	printf("panic: ");
 	printf(s);
 	printf("\n");
-	while(1){};
+	while (1)
+	{
+	};
+}
+
+void scanf(char *c, int len)
+{
+	int k = 0; // 当前的位置应该放什么
+	while (1)
+	{
+		if (len != 1 && k == len - 1)
+		{
+			c[k] = '\0';
+			return;
+		}
+		if (len == 1 && k == 1)
+		{
+			return; // 接受单个输入
+		}
+		if (message != 0)
+		{
+			if (message == 13)
+			{
+				c[k] = '\0';
+				uart_puts("\n");
+				return;
+			}
+			*(c + k) = message;
+			uart_putc((char)*(c + k));
+			k++;
+			message = 0;
+		}
+	}
 }

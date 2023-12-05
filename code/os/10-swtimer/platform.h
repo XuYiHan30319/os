@@ -91,7 +91,7 @@
 #define CLINT_MTIMECMP(hartid) (CLINT_BASE + 0x4000 + 8 * (hartid))
 #define CLINT_MTIME (CLINT_BASE + 0xBFF8) // cycles since boot.
 
-/* 10000000 ticks per-second 这里我调成了1/10*/
-#define CLINT_TIMEBASE_FREQ 100000
+/* 10000000 ticks per-second */
+#define CLINT_TIMEBASE_FREQ 10000000
 
 #endif /* __PLATFORM_H__ */

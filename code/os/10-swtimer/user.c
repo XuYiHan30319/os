@@ -41,6 +41,9 @@ void user_task0(void)
 	// 	printf("timer_create() failed!\n");
 	// }
 	int i = 0;
+	char c[102];
+	scanf(&c, sizeof(c));
+	printf("接受到了c,%s", c);
 	while (1)
 	{
 		i++;
@@ -157,6 +160,10 @@ void game()
 		{
 			continue;
 		}
+		for (int i = 0; i < 30; i++)
+		{
+			printf("\n");
+		}
 		printf("------------------------\n");
 		for (int i = 0; i < 5; i++)
 		{
@@ -168,7 +175,7 @@ void game()
 					printf(" ");
 				}
 				printf("x");
-				for (int j = x; j < 22; j++)
+				for (int j = x; j < 21; j++)
 				{
 					printf(" ");
 				}
@@ -193,7 +200,10 @@ void os_main(void)
 	// task_create(user_task0, NULL, 1, 1);
 	// task_create(user_task1, NULL, 1, 1);
 	// task_create(user_task2, a, 2, 1);
-	// uart_putc('\n');
-	task_create(input_task, NULL, 1, 1);
-	task_create(game, NULL, 1, 1);
+
+	task_create(run, NULL, 1, 1);
+	uart_putc('\n');
+	// 游戏
+	//  task_create(input_task, NULL, 1, 1);
+	//  task_create(game, NULL, 1, 1);
 }

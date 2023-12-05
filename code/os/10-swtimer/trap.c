@@ -6,7 +6,7 @@ extern void timer_handler(void);
 extern void schedule(void);
 extern int software_type;
 extern struct context *next_task;
-char message;
+char message = 0;
 
 void trap_init()
 {

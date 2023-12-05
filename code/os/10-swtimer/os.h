@@ -18,6 +18,7 @@ extern uint8_t xyh_uart_getc(void);
 
 /* printf */
 extern int printf(const char *s, ...);
+extern void scanf(char *, int);
 extern void panic(char *s);
 
 /* memory management */
@@ -87,6 +88,7 @@ typedef struct semaphore
 	queue *task_queue;
 } semaphore;
 
+extern void run();
 extern queue *init_queue();
 extern void push_queue(queue *, struct context *);
 extern void pop_queue(queue *);
