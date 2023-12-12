@@ -7,12 +7,10 @@ int ptr = 512, stack[1024], sp = 0;
 void run()
 {
     char *helloworld = "++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>++.>+.+++++++..+++.<<++.>+++++++++++++++.>.+++.------.--------.<<+.<.";
-    printf("创建了brainFuck\n");
+    printf("创建了brain**\n");
     int size = 0, pc = 0;
-    // scanf(program, 1024);
     for (; helloworld[size] != '\0'; ++size)
         program[size] = helloworld[size];
-    printf("%s\n", program);
 
     for (; pc < size; ++pc)
     {
@@ -61,6 +59,5 @@ void run()
             break;
         }
     }
-    printf("\n");
     return;
 }

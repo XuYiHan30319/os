@@ -18,13 +18,17 @@ void external_interrupt_handler()
 {
 	int irq = plic_claim();
 
-	if (irq == UART0_IRQ){
-      		uart_isr();
-	} else if (irq) {
+	if (irq == UART0_IRQ)
+	{
+		uart_isr();
+	}
+	else if (irq)
+	{
 		printf("unexpected interrupt irq = %d\n", irq);
 	}
-	
-	if (irq) {
+
+	if (irq)
+	{
 		plic_complete(irq);
 	}
 }
@@ -33,18 +37,20 @@ reg_t trap_handler(reg_t epc, reg_t cause, struct context *cxt)
 {
 	reg_t return_pc = epc;
 	reg_t cause_code = cause & 0xfff;
-	
-	if (cause & 0x80000000) {
+
+	if (cause & 0x80000000)
+	{
 		/* Asynchronous trap - interrupt */
-		switch (cause_code) {
+		switch (cause_code)
+		{
 		case 3:
 			uart_puts("software interruption!\n");
 			/*
 			 * acknowledge the software interrupt by clearing
-    			 * the MSIP bit in mip.
+			 * the MSIP bit in mip.
 			 */
 			int id = r_mhartid();
-    			*(uint32_t*)CLINT_MSIP(id) = 0;
+			*(uint32_t *)CLINT_MSIP(id) = 0;
 
 			schedule();
 
@@ -61,10 +67,13 @@ reg_t trap_handler(reg_t epc, reg_t cause, struct context *cxt)
 			uart_puts("unknown async exception!\n");
 			break;
 		}
-	} else {
+	}
+	else
+	{
 		/* Synchronous trap - exception */
 		printf("Sync exceptions!, code = %d\n", cause_code);
-		switch (cause_code) {
+		switch (cause_code)
+		{
 		case 8:
 			uart_puts("System call from U-mode!\n");
 			do_syscall(cxt);
@@ -72,7 +81,7 @@ reg_t trap_handler(reg_t epc, reg_t cause, struct context *cxt)
 			break;
 		default:
 			panic("OOPS! What can I do!");
-			//return_pc += 4;
+			// return_pc += 4;
 		}
 	}
 
@@ -91,8 +100,7 @@ void trap_test()
 	 * Synchronous exception code = 5
 	 * Load access fault
 	 */
-	//int a = *(int *)0x00000000;
+	// int a = *(int *)0x00000000;
 
 	uart_puts("Yeah! I'm return back from trap!\n");
 }
-

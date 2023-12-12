@@ -35,15 +35,16 @@ _start:
 	# Notice: default mstatus is 0
 	# Set mstatus.MPP to 3, so we still run in Machine mode after MRET.表示mret后machine模式
 	# Set mstatus.MPIE to 1, so MRET will enable the interrupt. 表示中断被打开
+
 	# 打开寄存器中的某些位置让他可以进去machine模式,并且打开了中断,保证进入的是machine级别
 	li	t0, 3 << 11 | 1 << 7
 	csrr	a1, mstatus
 	or	t0, t0, a1
 	csrw	mstatus, t0
-
+	# 跳转到start_kernel函数开始运行内核
 	j	start_kernel		# hart 0 jump to c
 
-park:
+park:# 停止该线程上内核的运行
 	wfi
 	j	park
 

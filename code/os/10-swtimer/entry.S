@@ -112,6 +112,7 @@ trap_vector:
 	csrw	mscratch, t5
 
 	# call the C trap handler in trap.c
+	# 传参
 	csrr	a0, mepc
 	csrr	a1, mcause
 	call	trap_handler

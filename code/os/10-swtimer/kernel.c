@@ -39,12 +39,12 @@ void os_start()
 
 void start_kernel(void)
 {
-	uart_init();
+	uart_init(); // 打开一些寄存器,让他可以出
 	uart_puts("Hello, RVOS!\n");
 
-	page_init();
+	page_init(); // 初始化页表
 
-	trap_init();
+	trap_init(); // 中断向量表
 
 	plic_init();
 

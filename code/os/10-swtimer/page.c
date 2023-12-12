@@ -15,6 +15,7 @@ extern uint32_t BSS_START;
 extern uint32_t BSS_END;
 extern uint32_t HEAP_START;
 extern uint32_t HEAP_SIZE;
+
 #define false 0
 #define true 1
 #define bool char
@@ -30,6 +31,7 @@ static uint32_t _num_pages = 0;
 #define PAGE_SIZE 4096
 #define PAGE_ORDER 12
 
+// bitmap的形式,一个比特的最后一位表示页被使用,第二位表示是否是最后一个
 #define PAGE_TAKEN (uint8_t)(1 << 0)
 #define PAGE_LAST (uint8_t)(1 << 1)
 
@@ -43,7 +45,7 @@ struct Page
 {
 	uint8_t flags;
 };
-
+// static inline表示只在文件内生效
 static inline void _clear(struct Page *page)
 {
 	page->flags = 0;
@@ -87,12 +89,14 @@ static inline uint32_t _align_page(uint32_t address)
 	return (address + order) & (~order);
 }
 
+/// @brief 初始化bitmap
 void page_init()
 {
 	/*
 	 * We reserved 8 Page (8 x 4096) to hold the Page structures.
 	 * It should be enough to manage at most 128 MB (8 x 4096 x 4096)
 	 */
+	// 计算页数,其中这个8是个超参数,是我们算出来最大可能得页需要的bitmap的数目
 	_num_pages = (HEAP_SIZE / PAGE_SIZE) - 8;
 	printf("HEAP_START = %x, HEAP_SIZE = %x, num of pages = %d\n", HEAP_START, HEAP_SIZE, _num_pages);
 

@@ -1,3 +1,4 @@
+# 计算每个分段的位置的
 .section .rodata
 .global HEAP_START
 HEAP_START: .word _heap_start

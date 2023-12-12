@@ -12,6 +12,7 @@ void trap_init()
 {
 	/*
 	 * set the trap-vector base-address for machine-mode
+	 * 打开中断并且把触发中断的位置设置为中断向量表
 	 */
 	w_mtvec((reg_t)trap_vector);
 }

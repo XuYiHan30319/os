@@ -3,7 +3,8 @@
         "os.h": "c",
         "stdarg.h": "c",
         "platform.h": "c",
-        "stddef.h": "c"
+        "stddef.h": "c",
+        "user_api.h": "c"
     },
     "workbench.editor.wrapTabs": true
 }

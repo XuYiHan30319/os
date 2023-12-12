@@ -2,7 +2,7 @@ include ../../common.mk
 
 .DEFAULT_GOAL := all
 all:
-	@${CC} ${CFLAGS} ${SRC} -Ttext=0x80000000 -o ${EXEC}.elf
+	@${CC} ${CFLAGS} ${SRC} -Ttext=0x00000 -o ${EXEC}.elf
 	@${OBJCOPY} -O binary ${EXEC}.elf ${EXEC}.bin
 
 .PHONY : run

@@ -35,7 +35,6 @@ void sched_init()
 
 void schedule()
 {
-
 	switch_to(&ctx_os);
 }
 

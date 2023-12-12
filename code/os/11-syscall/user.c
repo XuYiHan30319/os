@@ -11,24 +11,28 @@ void user_task0(void)
 	unsigned int hid = -1;
 
 	/*
-	 * if syscall is supported, this will trigger exception, 
+	 * if syscall is supported, this will trigger exception,
 	 * code = 2 (Illegal instruction)
 	 */
-	//hid = r_mhartid();
-	//printf("hart id is %d\n", hid);
+	// hid = r_mhartid();
+	// printf("hart id is %d\n", hid);
 
 #ifdef CONFIG_SYSCALL
 	int ret = -1;
 	ret = gethid(&hid);
-	//ret = gethid(NULL);
-	if (!ret) {
+	// ret = gethid(NULL);
+	if (!ret)
+	{
 		printf("system call returned!, hart id is %d\n", hid);
-	} else {
+	}
+	else
+	{
 		printf("gethid() failed, return: %d\n", ret);
 	}
 #endif
 
-	while (1){
+	while (1)
+	{
 		uart_puts("Task 0: Running... \n");
 		task_delay(DELAY);
 	}
@@ -37,7 +41,8 @@ void user_task0(void)
 void user_task1(void)
 {
 	uart_puts("Task 1: Created!\n");
-	while (1) {
+	while (1)
+	{
 		uart_puts("Task 1: Running... \n");
 		task_delay(DELAY);
 	}
@@ -49,4 +54,3 @@ void os_main(void)
 	task_create(user_task0);
 	task_create(user_task1);
 }
-

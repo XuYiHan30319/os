@@ -68,6 +68,7 @@
 
 void uart_init()
 {
+	// 关闭中断等初始好了再打开,防止意外的中断
 	/* disable interrupts. */
 	uart_write_reg(IER, 0x00);
 
