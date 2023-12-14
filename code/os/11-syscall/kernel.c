@@ -16,7 +16,6 @@ extern void timer_init(void);
 void start_kernel(void)
 {
 	uart_init();
-	uart_puts("Hello, RVOS!\n");
 
 	page_init();
 
@@ -33,6 +32,7 @@ void start_kernel(void)
 	schedule();
 
 	uart_puts("Would not go here!\n");
-	while (1) {}; // stop here!
+	while (1)
+	{
+	}; // stop here!
 }
-

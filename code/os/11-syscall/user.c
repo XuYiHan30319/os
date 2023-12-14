@@ -2,9 +2,9 @@
 
 #include "user_api.h"
 #include "brainFuck.h"
-
+extern void func1(void);
 #define DELAY 4000
-
+extern char *compile();
 void user_task0(void)
 {
 	uart_puts("Task 0: Created!\n");
@@ -54,6 +54,6 @@ void user_task1(void)
 /* NOTICE: DON'T LOOP INFINITELY IN main() */
 void os_main(void)
 {
-	task_create(run);
-	// task_create(user_task1);
+	task_create(func1);
+	task_create(compile);
 }

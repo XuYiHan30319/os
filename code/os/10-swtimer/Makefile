@@ -17,7 +17,8 @@ SRCS_C = \
 	timer.c \
 	lock.c \
 	my_queue.c\
-	brainFuck.c
+	brainFuck.c\
+	onlyPrint.c
 
 OBJS = $(SRCS_ASM:.S=.o)
 OBJS += $(SRCS_C:.c=.o)
