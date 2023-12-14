@@ -27,7 +27,7 @@ int software_type;
 
 void sched_init()
 {
-	w_mscratch(0);
+	w_mscratch(0); // 保存上下文地址空间
 
 	/* enable machine-mode software interrupts. */
 	w_mie(r_mie() | MIE_MSIE);
@@ -40,6 +40,7 @@ void schedule()
 
 struct context *get_next_task()
 {
+	printf("正在寻找下一个任务\n");
 	if (_top <= 0)
 	{
 		panic("Num of task should be greater than zero!");
@@ -58,8 +59,8 @@ struct context *get_next_task()
 	}
 	int a[MAX_TASKS]; // 找出所有优先级等于max_priority的
 	int n = 0;
-	for (int i = 0; i < _top; i++)
-	{
+	for (int i = _current + 1; i < _top; i++)
+	{ // 先找后面的
 		if (ctx_tasks[i].vaild && ctx_tasks[i].priority == max_priority)
 		{
 			a[n] = i;
@@ -68,6 +69,21 @@ struct context *get_next_task()
 				cur = n;
 			}
 			n++;
+		}
+	}
+	if (cur == -1)
+	{ // 如果没找到,找前面的,在优先级里面进行轮询
+		for (int i = 0; i < _current + 1; i++)
+		{
+			if (ctx_tasks[i].vaild && ctx_tasks[i].priority == max_priority)
+			{
+				a[n] = i;
+				if (_current == i)
+				{
+					cur = n;
+				}
+				n++;
+			}
 		}
 	}
 	if (cur == -1)

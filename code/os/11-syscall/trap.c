@@ -71,13 +71,13 @@ reg_t trap_handler(reg_t epc, reg_t cause, struct context *cxt)
 	else
 	{
 		/* Synchronous trap - exception */
-		printf("Sync exceptions!, code = %d\n", cause_code);
+		// printf("Sync exceptions!, code = %d\n", cause_code);
 		switch (cause_code)
 		{
-		case 8:
-			uart_puts("System call from U-mode!\n");
+		case 8: // 8表示用户态触发的ecall
+			// uart_puts("System call from U-mode!\n");
 			do_syscall(cxt);
-			return_pc += 4;
+			return_pc += 4; // 注意在ecall触发的中断是不会自己+4的
 			break;
 		default:
 			panic("OOPS! What can I do!");

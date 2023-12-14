@@ -53,7 +53,7 @@ reg_t trap_handler(reg_t epc, reg_t cause)
 			{
 				kill_schedule();
 			}
-			else
+			else if (software_type == 1)
 			{
 				switch_to(next_task);
 			}

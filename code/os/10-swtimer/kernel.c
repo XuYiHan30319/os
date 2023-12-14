@@ -26,9 +26,9 @@ void welcome()
 
 void os_start()
 {
+	// welcome();
 	os_main();
 	// lock_main();
-	welcome();
 	while (1)
 	{
 		next_task = get_next_task();
@@ -40,19 +40,18 @@ void os_start()
 void start_kernel(void)
 {
 	uart_init(); // 打开一些寄存器,让他可以出
-	uart_puts("Hello, RVOS!\n");
 
 	page_init(); // 初始化页表
 
 	trap_init(); // 中断向量表
 
-	plic_init();
+	plic_init(); // 设置中断优先级
 
-	timer_init();
+	timer_init(); // 时钟初始化
 
 	sched_init();
 
-	create_os_task(os_start);
+	create_os_task(os_start); // 创建内核任务,借用内核线程进行调度
 
 	while (1)
 	{

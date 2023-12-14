@@ -22,7 +22,7 @@ void timer_func(void *arg)
 	printf("======> TIMEOUT: %s: %d\n", param->str, param->counter);
 }
 
-void user_task0(void)
+void user_task0(int a[2])
 {
 	// 分别在第3,5,7个时刻进行提示,软件定时器
 	// struct timer *t1 = timer_create(timer_func, &person, 3);
@@ -42,8 +42,8 @@ void user_task0(void)
 	// }
 	int i = 0;
 	char c[102];
-	scanf(&c, sizeof(c));
-	printf("接受到了c,%s", c);
+	// scanf(&c, sizeof(c));
+	// printf("接受到了c,%s", c);
 	while (1)
 	{
 		i++;
@@ -52,7 +52,7 @@ void user_task0(void)
 			printf("正在杀死任务0\n");
 			task_yield(0);
 		}
-		uart_puts("Task 0: Running... \n");
+		printf("Task %d: Running... \n", a[0]);
 		task_delay(DELAY);
 	}
 }
@@ -191,18 +191,18 @@ void game()
 	}
 }
 
-uint32_t a[2] = {3, 4};
-
+uint32_t a[2] = {-1, 4};
 // 这里用来创造初识线程
 void os_main(void)
 {
-	// task_create();
-	// task_create(user_task0, NULL, 1, 1);
-	// task_create(user_task1, NULL, 1, 1);
-	// task_create(user_task2, a, 2, 1);
-
-	task_create(run, NULL, 1, 1);
-	uart_putc('\n');
+	task_create(user_task0, a, 1, 5);
+	task_create(user_task1, NULL, 1, 1);
+	task_create(user_task1, NULL, 1, 1);
+	task_create(user_task1, NULL, 1, 1);
+	task_create(user_task2, a, 2, 1);
+	// 编译哈
+	// task_create(run, NULL, 1, 1);
+	// uart_putc('\n');
 	// 游戏
 	//  task_create(input_task, NULL, 1, 1);
 	//  task_create(game, NULL, 1, 1);

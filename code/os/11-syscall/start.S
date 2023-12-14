@@ -30,7 +30,7 @@ _start:
 	add	sp, sp, t0		# move the current hart stack pointer
 					# to its place in the stack space
 
-#ifdef CONFIG_SYSCALL
+#ifdef CONFIG_SYSCALL 
 	# https://lore.kernel.org/qemu-devel/20201223192553.332508-1-atish.patra@wdc.com/
 	# For qemu version >= 6.0, exception would be raised if no PMP enty is
 	# configured. So just configure one entny, which allows all the whole
@@ -59,6 +59,7 @@ _start:
 	# So finally we simply reset t0 to zero.
 	li	t0, 0
 #else
+	# 这里设置了用户模式或机器模式
 	# Set mstatus.MPP to 3, so we still run in Machine mode after MRET.
 	# Set mstatus.MPIE to 1, so MRET will enable the interrupt.
 	li	t0, 3 << 11 | 1 << 7

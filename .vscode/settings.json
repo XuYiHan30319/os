@@ -4,7 +4,8 @@
         "stdarg.h": "c",
         "platform.h": "c",
         "stddef.h": "c",
-        "user_api.h": "c"
+        "user_api.h": "c",
+        "syscall.h": "c"
     },
     "workbench.editor.wrapTabs": true
 }

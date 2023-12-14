@@ -17,15 +17,21 @@ int sys_gethid(unsigned int *ptr_hid)
 
 void do_syscall(struct context *cxt)
 {
-	uint32_t syscall_num = cxt->a7;
+	uint32_t syscall_num = cxt->a7; // 使用a7进行传递系统调用号
 
 	switch (syscall_num)
 	{
 	case SYS_gethid:
 		cxt->a0 = sys_gethid((unsigned int *)(cxt->a0));
 		break;
-	case SyS_printf:
-		printf("123");
+	case SYS_printf:; //?好逆天的bug,必须加一个;不然会编译错误
+		char *s1 = (char *)cxt->a0;
+		char *s2 = (char *)cxt->a1;
+		printf(s1, s2);
+		break;
+	case SYS_printfWithoutcanshu:;
+		char *s = (char *)cxt->a0;
+		printf(s);
 		break;
 	default:
 		printf("Unknown syscall no: %d\n", syscall_num);

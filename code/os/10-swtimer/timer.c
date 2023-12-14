@@ -41,6 +41,7 @@ void timer_init()
 	timer_load(TIMER_INTERVAL);
 
 	/* enable machine-mode timer interrupts. */
+	// 开启时钟中断,到那个点就触发一次中断
 	w_mie(r_mie() | MIE_MTIE);
 }
 
@@ -137,7 +138,7 @@ void timer_handler()
 	timer_check();
 	// 再等待一秒
 	timer_load(TIMER_INTERVAL);
-	// 在这里检查时间
+	// 在这里检查时间,用于给任务设置自己的运行时间
 	if (waiting_time == _tick)
 	{
 		// schedule();
