@@ -15,6 +15,6 @@ myprintf:
 
 .global myprintfWithoutCanshu
 myprintfWithoutCanshu:
-	li a7,SYS_printf
+	li a7,SYS_printfWithoutcanshu
 	ecall
 	ret

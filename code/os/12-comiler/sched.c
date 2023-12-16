@@ -22,6 +22,9 @@ static int _current = -1;
 void sched_init()
 {
 	w_mscratch(0);
+
+	/* enable machine-mode software interrupts. */
+	w_mie(r_mie() | MIE_MSIE);
 }
 
 /*
@@ -51,7 +54,7 @@ int task_create(void (*start_routin)(void))
 {
 	if (_top < MAX_TASKS) {
 		ctx_tasks[_top].sp = (reg_t) &task_stack[_top][STACK_SIZE];
-		ctx_tasks[_top].ra = (reg_t) start_routin;
+		ctx_tasks[_top].pc = (reg_t) start_routin;
 		_top++;
 		return 0;
 	} else {
@@ -66,7 +69,9 @@ int task_create(void (*start_routin)(void))
  */
 void task_yield()
 {
-	schedule();
+	/* trigger a machine-level software interrupt */
+	int id = r_mhartid();
+	*(uint32_t*)CLINT_MSIP(id) = 1;
 }
 
 /*

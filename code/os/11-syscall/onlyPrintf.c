@@ -1,28 +1,28 @@
 #include "os.h"
 #include "user_api.h"
 
-void *memset(void *s, int c, size_t n)
-{
-    unsigned char *p = s;
-    while (n--)
-    {
-        ;
-        *p++ = (unsigned char)c;
-    }
-    return s;
-}
+// void *memset(void *s, int c, size_t n)
+// {
+//     unsigned char *p = s;
+//     while (n--)
+//     {
+//         ;
+//         *p++ = (unsigned char)c;
+//     }
+//     return s;
+// }
 
-void *memcpy(void *dest, const void *src, size_t n)
-{
-    char *csrc = (char *)src;
-    char *cdest = (char *)dest;
-    for (size_t i = 0; i < n; i++)
-    {
-        ;
-        cdest[i] = csrc[i];
-    }
-    return dest;
-}
+// void *memcpy(void *dest, const void *src, size_t n)
+// {
+//     char *csrc = (char *)src;
+//     char *cdest = (char *)dest;
+//     for (size_t i = 0; i < n; i++)
+//     {
+//         ;
+//         cdest[i] = csrc[i];
+//     }
+//     return dest;
+// }
 
 char *append(char *s1, const char *s2)
 {
@@ -69,7 +69,7 @@ int if_equal_to_myprintfWithoutCanshu(const char *s)
 
 char *compile()
 {
-    const char *code = "void func1()\n{\nmyprintfWithoutCanshu(\"helloworld\");\nmyprintfWithoutCanshu(\"这是第二条语句\");\n}\n";
+    const char *code = "void func1()\n{\nmyprintfWithoutCanshu(\"helloworld\");\nmyprintfWithoutCanshu(\"这是第二条语句\");myprintfWithoutCanshu(\"你好,我是xyh\");\n}\n";
     char s[10][100]; // 最多10个printf
     int scount = 0;
     int len = 0; // 统计长度
@@ -102,27 +102,12 @@ char *compile()
     for (int i = 0; i < scount; i++)
     {
         printf("str%d :.string %s\n", i, s[i]);
-    };
+    }
     printf(".text\nfunc1 :\n");
     for (int i = 0; i < scount; i++)
     {
         printf("la a0,str%d\n", i);
-        ;
         printf("call myprintfWithoutCanshu\n");
-        ;
-    };
+    }
     printf("ret\n.end\n");
 }
-// .extern  myprintfWithoutCanshu
-// .global func1
-
-// .data
-//     display_str :.string "Hello, RVO323S!\n"
-//     display_str2 :.string "Hello, RVO323S!\n"
-
-// .text
-// func1 :
-//     la a0,display_str
-//     call myprintfWithoutCanshu
-
-//     ret

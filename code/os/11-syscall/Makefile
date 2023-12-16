@@ -25,7 +25,6 @@ SRCS_C = \
 	timer.c \
 	lock.c \
 	syscall.c\
-	barinFuck.c\
 	onlyPrintf.c
 
 OBJS = $(SRCS_ASM:.S=.o)

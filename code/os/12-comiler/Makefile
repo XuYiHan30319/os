@@ -1,16 +1,21 @@
 include ../../common.mk
 
+SYSCALL = y
+
+ifeq (${SYSCALL}, y)
+CFLAGS += -D CONFIG_SYSCALL
+endif
+
 SRCS_ASM = \
 	start.S \
-	mem.S \
 	entry.S \
-	test.S\
+	usys.S\
+	test.S
 
 SRCS_C = \
 	kernel.c \
 	uart.c \
 	printf.c \
-	page.c \
 	sched.c \
 	user.c \
 	trap.c \
