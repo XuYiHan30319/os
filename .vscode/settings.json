@@ -1,11 +1,6 @@
 {
     "files.associations": {
-        "os.h": "c",
-        "stdarg.h": "c",
-        "platform.h": "c",
-        "stddef.h": "c",
-        "user_api.h": "c",
-        "syscall.h": "c"
+        "user_api.h": "c"
     },
-    "workbench.editor.wrapTabs": true
+    "C_Cpp.errorSquiggles": "disabled"
 }

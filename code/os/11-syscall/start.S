@@ -58,12 +58,12 @@ _start:
 	# always globally enabled regardless of the setting of the global MIE bit.
 	# So finally we simply reset t0 to zero.
 	li	t0, 0
-#else
+ #else
 	# 这里设置了用户模式或机器模式
 	# Set mstatus.MPP to 3, so we still run in Machine mode after MRET.
 	# Set mstatus.MPIE to 1, so MRET will enable the interrupt.
 	li	t0, 3 << 11 | 1 << 7
-#endif
+# endif
 	csrr	a1, mstatus
 	or	t0, t0, a1
 	csrw	mstatus, t0

@@ -84,7 +84,6 @@ reg_t trap_handler(reg_t epc, reg_t cause, struct context *cxt)
 			// return_pc += 4;
 		}
 	}
-
 	return return_pc;
 }
 

@@ -14,8 +14,8 @@ void user_task0(void)
 	 * if syscall is supported, this will trigger exception,
 	 * code = 2 (Illegal instruction)
 	 */
-	// hid = r_mhartid();
-	// printf("hart id is %d\n", hid);
+	hid = r_mhartid();
+	printf("hart id is %d\n", hid);
 
 #ifdef CONFIG_SYSCALL
 	int ret = -1;
@@ -53,6 +53,6 @@ void user_task1(void)
 /* NOTICE: DON'T LOOP INFINITELY IN main() */
 void os_main(void)
 {
-	task_create(user_task0);
+	// task_create(user_task0);
 	task_create(compile);
 }

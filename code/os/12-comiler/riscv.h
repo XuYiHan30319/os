@@ -56,6 +56,7 @@ static inline void w_mepc(reg_t x)
 	asm volatile("csrw mepc, %0" : : "r" (x));
 }
 
+
 static inline reg_t r_mepc()
 {
 	reg_t x;
